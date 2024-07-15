@@ -9,11 +9,11 @@ class Config(object):
 
     def __init__(self, dataset):
         self.model_name = 'BERT_SoftPrompt'
-        self.train_path = dataset + '/data/train.txt'  # 训练集
-        self.dev_path = dataset + '/data/dev.txt'  # 验证集
-        self.test_path = dataset + '/data/test.txt'  # 测试集
+        self.train_path = dataset + '/data/intention/train.txt'  # 训练集
+        self.dev_path = dataset + '/data/intention/dev.txt'  # 验证集
+        self.test_path = dataset + '/data/intention/test.txt'  # 测试集
         self.class_list = [x.strip() for x in open(
-            dataset + '/data/class.txt').readlines()]  # 类别名单
+            dataset + '/data/intention/class.txt').readlines()]  # 类别名单
         self.save_path = dataset + '/saved_dict/' + self.model_name + '.safetensors'  # 模型训练结果
         self.device = torch.device('cuda:7' if torch.cuda.is_available() else 'cpu')  # 设备
         self.state_dict = None
