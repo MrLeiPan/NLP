@@ -1,7 +1,12 @@
 import matplotlib.pyplot as plt
 import torch
 from importlib import import_module
+
+from accelerate import init_empty_weights, infer_auto_device_map
 from safetensors.torch import load_file
+from transformers import AutoModelForCausalLM, AutoConfig
+
+
 def count_sentence_lengths(file_path):
     sentence_lengths = []
 
@@ -27,6 +32,17 @@ def saveModel(model, dict_load_path,dict_save_path):
 
     model = torch.load(dict_save_path)
     print(model)
+
+
+# 计算设备图
+def compute_model(model_path):
+    config = AutoConfig.from_pretrained(model_path,trust_remote_code=True)
+    with init_empty_weights():
+        model = AutoModelForCausalLM.from_config(config,trust_remote_code=True)
+    device_map = infer_auto_device_map(model)
+    return device_map
+
+
 if __name__ == '__main__':
     x = import_module('models.' + "BERT")
     config = x.Config("THUCNews")
